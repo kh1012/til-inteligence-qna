@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="flex items-center justify-center">
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -21,7 +21,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>Commit Test</p>
+        <p className="text-3xl font-bold">이 부분 반영된게 맞지?</p>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more

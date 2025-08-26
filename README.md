@@ -1,69 +1,51 @@
-# React + TypeScript + Vite
+# 디렉토리 구조
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```py
+src/
+├─ app/                         # 앱 전역 설정 (라우터/프로바이더/전역 상태 등)
+│  ├─ router/
+│  │  ├─ routes.tsx            # 라우트 트리 정의(createBrowserRouter)
+│  │  └─ guards.tsx            # 권한/진입가드(HOC 또는 loader)
+│  ├─ providers/
+│  │  ├─ query-client.ts       # react-query 등 클라이언트
+│  │  └─ AppProviders.tsx      # 전역 Provider 조합
+│  ├─ store/                    # 전역 상태(zustand/redux) 선택
+│  └─ index.tsx                 # App 엔트리(라우터 Provider 연결)
+│
+├─ layouts/                     # 레이아웃 (중첩 라우팅의 상위 레이아웃)
+│  ├─ RootLayout.tsx            # 공통(Header/Footer 등)
+│  ├─ AuthLayout.tsx            # 인증 페이지용
+│  └─ DashboardLayout.tsx       # 대시보드(사이드바 포함)
+│
+├─ pages/                       # 라우팅 대상 페이지(화면 단위)
+│  ├─ home/
+│  │  └─ HomePage.tsx
+│  ├─ about/
+│  │  └─ AboutPage.tsx
+│  ├─ login/
+│  │  └─ LoginPage.tsx
+│  └─ dashboard/
+│     ├─ DashboardHomePage.tsx
+│     └─ SettingsPage.tsx
+│
+├─ components/                  # 재사용 UI (프레젠테이셔널)
+│  ├─ ui/                       # Button, Input 같은 원자/분자 단위
+│  └─ layout/                   # Header, Footer, Sidebar 등
+│
+├─ features/                    # 기능 단위(도메인 중심: auth, user, projects 등)
+│  ├─ auth/
+│  │  ├─ api/                   # signIn, signOut
+│  │  ├─ hooks/                 # useCurrentUser 등
+│  │  └─ components/            # AuthForm 등
+│  └─ project/
+│     └─ ...
+│
+├─ lib/                         # 유틸, axios 인스턴스, 형식화 함수 등
+├─ hooks/                       # 범용 커스텀 훅(useToggle, useDebounce 등)
+├─ styles/                      # 글로벌 스타일 (tailwind, reset, theme)
+│  └─ index.css
+├─ assets/                      # 이미지/폰트(웹폰트는 가능하면 CDN 또는 public/)
+├─ types/                       # 공용 TS 타입
+├─ main.tsx                     # Vite 진입(ReactDOM.createRoot)
+└─ App.tsx                      # 최상위 App 컴포넌트(경량)
 ```
